@@ -58,7 +58,6 @@ class ClientHandler extends Thread implements  Runnable{
         try {
             Guerrier guerrierClient = (Guerrier) this.is.readObject();
             while(this.isConnected) {
-                System.out.println(guerrierClient.getNom() + " " + guerrierClient.getX() + " " + guerrierClient.getY());
                 try{
                     String st = (String) this.is.readObject();
                     String[] parts = st.split("-");

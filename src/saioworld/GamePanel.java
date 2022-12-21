@@ -10,10 +10,11 @@ import Tile.TileManager;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class GamePanel extends JPanel implements Runnable{
     final int originalTileSize = 16;
     final int scale = 3;
-
+    KeyHandler keyH = new KeyHandler();
     public int tileSize = originalTileSize * scale;
     final int maxScreenCol = 16;
     final int maxScreenRow = 12;
@@ -23,12 +24,9 @@ public class GamePanel extends JPanel implements Runnable{
     int FPS = 60;
     Thread gameThread;
     TileManager tileM = new TileManager(this);
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
-    KeyHandler keyH = new KeyHandler();
     Guerrier guerrier1;
     Guerrier guerrier2;
+
 
     public GamePanel(int i){
         this.mode = i;
@@ -63,6 +61,8 @@ public class GamePanel extends JPanel implements Runnable{
             if(this.mode == 2){
                 client = new Client("localhost", 7777);
                 client.sendGuerrier(guerrier1);
+//               Guerrier guerrierHost = (Guerrier)client.getObject();
+//                System.out.println(guerrierHost.getNom());
             }
             while (gameThread != null) {
                 currentTime = System.nanoTime();
@@ -78,7 +78,6 @@ public class GamePanel extends JPanel implements Runnable{
                     delta--;
                 }
             }
-            client.closeConnection();
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -116,6 +115,15 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void updateClient(Guerrier gr){
+        this.guerrier2.setSpriteCounter(this.guerrier2.getSpriteCounter()+1);
+        if(this.guerrier2.getSpriteCounter() > 12){
+            if(this.guerrier2.getSpriteNum() == 1){
+                this.guerrier2.setSpriteNum(2);
+            }else if(this.guerrier2.getSpriteNum() == 2){
+                this.guerrier2.setSpriteNum(1);
+            }
+            this.guerrier2.setSpriteCounter(0);
+        }
         if(gr.getY() < this.guerrier2.getY()){
             this.guerrier2.setDirection("up");
         }

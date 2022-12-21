@@ -1,5 +1,6 @@
 package saioworld;
 
+import Personnage.Guerrier;
 import Server.Server;
 
 import javax.swing.*;

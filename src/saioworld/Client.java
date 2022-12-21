@@ -5,12 +5,11 @@ import Personnage.Guerrier;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class Client {
     private Socket s;
     private ObjectOutputStream os;
-    private InputStream is;
+    private ObjectInputStream is;
 
     public Client(String h, int p) throws IOException {
         InetAddress ip = InetAddress.getByName(h);
@@ -29,5 +28,8 @@ public class Client {
     }
     public void sendCoord(String st) throws IOException{
         this.os.writeObject(st);
+    }
+    public Object getObject() throws IOException, ClassNotFoundException {
+        return this.is.readObject();
     }
 }
