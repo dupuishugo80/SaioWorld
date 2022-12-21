@@ -14,7 +14,6 @@ import java.awt.*;
 public class GamePanel extends JPanel implements Runnable{
     final int originalTileSize = 16;
     final int scale = 3;
-    KeyHandler keyH = new KeyHandler();
     public int tileSize = originalTileSize * scale;
     final int maxScreenCol = 16;
     final int maxScreenRow = 12;
@@ -28,20 +27,17 @@ public class GamePanel extends JPanel implements Runnable{
     Guerrier guerrier2;
 
 
-    public GamePanel(int i){
+    public GamePanel(int i, Guerrier guerrier1, Guerrier guerrier2, KeyHandler keyH){
         this.mode = i;
-        if(i == 2){
-            this.guerrier2 = new Guerrier("Host", this, keyH, 100, 100);
-            this.guerrier1 = new Guerrier("Client", this, keyH, 150, 150);
-        } else if(i == 1){
-            this.guerrier1 = new Guerrier("Host", this, keyH, 100, 100);
-            this.guerrier2 = new Guerrier("Client", this, keyH, 150, 150);
-        }
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+        this.guerrier1 = guerrier1;
+        this.guerrier2 = guerrier2;
+        this.guerrier1.setGp(this);
+        this.guerrier2.setGp(this);
     }
 
     public void startGameThread(){
@@ -61,8 +57,8 @@ public class GamePanel extends JPanel implements Runnable{
             if(this.mode == 2){
                 client = new Client("localhost", 7777);
                 client.sendGuerrier(guerrier1);
-//               Guerrier guerrierHost = (Guerrier)client.getObject();
-//                System.out.println(guerrierHost.getNom());
+                Guerrier guerrierHost = (Guerrier)client.getObject();
+                System.out.println(guerrierHost.getNom());
             }
             while (gameThread != null) {
                 currentTime = System.nanoTime();

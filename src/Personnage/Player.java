@@ -14,4 +14,12 @@ public class Player implements Serializable {
         this.gp = gp;
         this.keyH = keyH;
     }
+
+    public GamePanel getGp() {
+        return gp;
+    }
+
+    public void setGp(GamePanel gp) {
+        this.gp = gp;
+    }
 }

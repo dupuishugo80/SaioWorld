@@ -15,8 +15,10 @@ public class Server {
     ObjectInputStream is;
     GamePanel gp;
     int nbOnline;
+    Guerrier guerrierHost;
 
-    public Server(GamePanel gp) throws IOException {
+    public Server(GamePanel gp, Guerrier guerrierHost) throws IOException {
+        this.guerrierHost = guerrierHost;
         this.gp = gp;
         ServerSocket ss = new ServerSocket(7777);
         System.out.println("Serveur en attente de joueurs");
@@ -30,7 +32,7 @@ public class Server {
             nbOnline++;
             System.out.println(nbOnline + "/2 Joueur co");
             System.out.println("---Nouveau thread---");
-            Thread t = new ClientHandler(socket, this.is, this.os, this.gp);
+            Thread t = new ClientHandler(socket, this.is, this.os, this.gp, this.guerrierHost);
             t.run();
             nbOnline--;
         }
@@ -42,21 +44,24 @@ class ClientHandler extends Thread implements  Runnable{
     private ObjectInputStream is;
     private Socket socket;
     GamePanel gp;
+    public Guerrier guerrierHost;
     private boolean isConnected;
 
     // Constructor
-    public ClientHandler(Socket socket, ObjectInputStream is, ObjectOutputStream os, GamePanel gp) {
+    public ClientHandler(Socket socket, ObjectInputStream is, ObjectOutputStream os, GamePanel gp, Guerrier guerrierHost) {
         this.gp = gp;
         this.socket = socket;
         this.os = os;
         this.is = is;
         this.isConnected = true;
+        this.guerrierHost = guerrierHost;
     }
 
     @Override
     public void run() {
         try {
             Guerrier guerrierClient = (Guerrier) this.is.readObject();
+            os.writeObject(this.guerrierHost);
             while(this.isConnected) {
                 try{
                     String st = (String) this.is.readObject();
