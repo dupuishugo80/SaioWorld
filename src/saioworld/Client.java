@@ -17,6 +17,13 @@ public class Client {
         this.os = new ObjectOutputStream(s.getOutputStream());
         this.is = new ObjectInputStream(s.getInputStream());
     }
+
+    public Client(Socket s, ObjectInputStream is, ObjectOutputStream os) throws IOException{
+        this.s = s;
+        this.is = is;
+        this.os = os;
+    }
+
     public void sendGuerrier(Guerrier g) throws IOException {
         os.writeObject(g);
     }
@@ -26,10 +33,16 @@ public class Client {
     public void sendInt(int i) throws IOException {
         this.os.writeObject(i);
     }
+    public void sendString(String s) throws IOException {
+        this.os.writeObject(s);
+    }
     public void sendCoord(String st) throws IOException{
         this.os.writeObject(st);
     }
     public Object getObject() throws IOException, ClassNotFoundException {
         return this.is.readObject();
+    }
+    public int available() throws IOException {
+        return this.is.available();
     }
 }

@@ -4,11 +4,15 @@ import saioworld.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 
 public class TileManager {
     GamePanel gp;
     Tile[] tile;
+    Tile chosenTile;
 
     public TileManager(GamePanel gp){
         this.gp = gp;
@@ -32,35 +36,22 @@ public class TileManager {
         }
     }
 
-    public void draw(Graphics2D g2){
-        g2.drawImage(tile[2].image, 0, 0, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 0, 48, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 0, 96, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 0, 144, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 0, 192, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 0, 240, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 0, 288, gp.tileSize, gp.tileSize, null);
-
-        g2.drawImage(tile[2].image, 48, 0, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 96, 0, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 144, 0, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 192, 0, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 240, 0, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 288, 0, gp.tileSize, gp.tileSize, null);
-
-        g2.drawImage(tile[2].image, 48, 288, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 96, 288, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 144, 288, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 192, 288, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 240, 288, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 288, 288, gp.tileSize, gp.tileSize, null);
-
-        g2.drawImage(tile[2].image, 288, 48, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 288, 96, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 288, 144, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 288, 192, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 288, 240, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[2].image, 288, 288, gp.tileSize, gp.tileSize, null);
+    public void draw(Graphics2D g2) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("src/res/map/world.txt"));
+        String line = reader.readLine();
+        int count = 0;
+        while (line != null) {
+            for(int i=0; i<line.length(); i++){
+                if(line.charAt(i) == '0'){
+                    chosenTile = tile[2];
+                }else if(line.charAt(i) == '1'){
+                    chosenTile = tile[1];
+                }
+                g2.drawImage(chosenTile.image, i*48, count*48, gp.tileSize, gp.tileSize, null);
+            }
+            line = reader.readLine();
+            count++;
+        }
 
     }
 }

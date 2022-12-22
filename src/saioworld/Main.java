@@ -5,6 +5,7 @@ import Server.Server;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.net.Socket;
 import java.util.Scanner;
 
 public class Main {
@@ -27,7 +28,11 @@ public class Main {
             window.setLocationRelativeTo(null);
             window.setVisible(true);
             gamePanel.startGameThread();
+            guerrier1.setGp(gamePanel);
+            guerrier2.setGp(gamePanel);
             Server server = new Server(gamePanel, guerrier1);
+            Socket s = server.getSocket();
+            gamePanel.setSocket(s);
         }
         if(choice == 2){
             Guerrier guerrier2 = new Guerrier("Host", null, keyH, 100, 100);
@@ -41,6 +46,8 @@ public class Main {
             window.pack();
             window.setLocationRelativeTo(null);
             window.setVisible(true);
+            guerrier1.setGp(gamePanel);
+            guerrier2.setGp(gamePanel);
             gamePanel.startGameThread();
         }
     }
