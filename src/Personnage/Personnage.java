@@ -120,7 +120,7 @@ public class Personnage extends Player implements Serializable {
         this.direction = direction;
     }
 
-    public void update(Client client) throws IOException {
+    public void update(Client client) throws IOException, ClassNotFoundException {
         if(keyH.upPress == true || keyH.downPress == true ||
                 keyH.leftPress == true || keyH.rightPress == true){
             if(keyH.upPress == true){
@@ -129,7 +129,7 @@ public class Personnage extends Player implements Serializable {
                 String xtsosend = String.valueOf(this.x);
                 String ytsosend = String.valueOf(this.y);
                 String tosend = xtsosend + "-" + ytsosend;
-                client.sendCoord(tosend);
+                //client.sendCoord(tosend);
             }
             else if(keyH.downPress == true){
                 this.direction = "down";
@@ -137,7 +137,7 @@ public class Personnage extends Player implements Serializable {
                 String xtsosend = String.valueOf(this.x);
                 String ytsosend = String.valueOf(this.y);
                 String tosend = xtsosend + "-" + ytsosend;
-                client.sendCoord(tosend);
+                //client.sendCoord(tosend);
             }
             else if(keyH.rightPress == true){
                 this.direction = "right";
@@ -145,7 +145,7 @@ public class Personnage extends Player implements Serializable {
                 String xtsosend = String.valueOf(this.x);
                 String ytsosend = String.valueOf(this.y);
                 String tosend = xtsosend + "-" + ytsosend;
-                client.sendCoord(tosend);
+                //client.sendCoord(tosend);
             }
             else if(keyH.leftPress == true){
                 this.direction = "left";
@@ -153,7 +153,7 @@ public class Personnage extends Player implements Serializable {
                 String xtsosend = String.valueOf(this.x);
                 String ytsosend = String.valueOf(this.y);
                 String tosend = xtsosend + "-" + ytsosend;
-                client.sendCoord(tosend);
+                //client.sendCoord(tosend);
             }
             this.spriteCounter++;
             if(this.spriteCounter > 12){
